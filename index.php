@@ -228,7 +228,7 @@
 
     <script>
         // Sesuaikan dengan URL backend Anda
-        const API_URL = 'http://localhost/slim2026/public';
+        const API_URL = 'http://localhost/projekapi/public';
 
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('jwt_token');
