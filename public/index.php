@@ -2,9 +2,13 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = Slim\Factory\AppFactory::create();
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
 
-$app->get('/simulasi-nested', function ($request, $response) {
+$app = AppFactory::create();
+
+$app->get('/simulasi-nested', function (Request $request, Response $response) {
 
     $data = [
         "id_resep" => 101,
@@ -28,10 +32,11 @@ $app->get('/simulasi-nested', function ($request, $response) {
         ]
     ];
 
-    $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+    $response->getBody()->write(
+        json_encode($data, JSON_PRETTY_PRINT)
+    );
 
-    return $response
-        ->withHeader('Content-Type', 'application/json');
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();
