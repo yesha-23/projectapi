@@ -215,20 +215,18 @@
                         <th>SKU Obat</th>
                         <th>Label / Catatan</th>
                         <th>Jumlah</th>
-                        <th>ID RM Pemilik</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <tr><td colspan="6" style="text-align: center;">Memuat data...</td></tr>
+                    <tr><td colspan="5" style="text-align: center;">Memuat data...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Sesuaikan dengan URL backend Anda
-        const API_URL = 'http://localhost/projekapi/public';
+        const API_URL = 'api.php';
 
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('jwt_token');
@@ -249,7 +247,7 @@
             }
 
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', `${API_URL}/login-jwt`, true);
+            xhr.open('POST', `${API_URL}?route=login-jwt`, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             
             xhr.onload = function() {
@@ -283,7 +281,7 @@
 
         function loadData(token) {
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', `${API_URL}/obat-jwt`, true);
+            xhr.open('GET', `${API_URL}?route=obat-jwt`, true);
             xhr.setRequestHeader('Authorization', `Bearer ${token}`);
             
             xhr.onload = function() {
@@ -306,7 +304,6 @@
                                 <td><strong>${obat.sku}</strong></td>
                                 <td><span style="opacity: 0.8">${obat.label_catatan || '-'}</span></td>
                                 <td><span style="padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 10px;">${obat.jumlah}</span></td>
-                                <td>${obat.id_rm}</td>
                                 <td class="actions">
                                     <a href="edit.php?id=${obat.id}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
                                     <button onclick="deleteObat(${obat.id})" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
@@ -315,17 +312,17 @@
                             tbody.appendChild(tr);
                         });
                     } else {
-                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Belum ada data obat.</td></tr>';
+                        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada data obat.</td></tr>';
                     }
                 } catch (e) {
                     console.error('Error parsing data:', e);
-                    document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--danger-color);">Terjadi kesalahan saat memproses data.</td></tr>';
+                    document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--danger-color);">Terjadi kesalahan saat memproses data.</td></tr>';
                 }
             };
             
             xhr.onerror = function() {
                 console.error('Error fetching data');
-                document.getElementById('tableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--danger-color);">Terjadi kesalahan saat memuat data.</td></tr>';
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--danger-color);">Terjadi kesalahan saat memuat data.</td></tr>';
             };
 
             xhr.send();
@@ -336,7 +333,7 @@
             
             const token = localStorage.getItem('jwt_token');
             const xhr = new XMLHttpRequest();
-            xhr.open('DELETE', `${API_URL}/obat-otorisasi/${id}`, true);
+            xhr.open('DELETE', `${API_URL}?route=obat-otorisasi&id=${id}`, true);
             xhr.setRequestHeader('Authorization', `Bearer ${token}`);
             
             xhr.onload = function() {
